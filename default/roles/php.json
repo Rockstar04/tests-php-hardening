@@ -1,0 +1,16 @@
+{
+    "name": "php",
+    "default_attributes": { },
+    "override_attributes": { },
+    "json_class": "Chef::Role",
+    "description": "PHP Hardened Server Test Role",
+    "chef_type": "role",
+    "default_attributes" : {
+    },
+    "run_list": [
+        "recipe[chef-solo-search]",
+        "recipe[apt]",
+        "recipe[php]",
+        "recipe[php-hardening]"
+    ]
+}
