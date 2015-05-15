@@ -19,7 +19,7 @@ describe 'PHP config parameters' do
   # Time / Memory Quota
 
   context php_config('max_execution_time') do
-    its(:value) { should eq 30 }
+    its(:value) { should <= 30 }
   end
 
   context php_config('max_input_nesting_level') do
@@ -27,11 +27,11 @@ describe 'PHP config parameters' do
   end
 
   context php_config('memory_limit') do
-    its(:value) { should eq '128M' }
+    its(:value.downcase) { should eq '128m' }
   end
 
   context php_config('post_max_size') do
-    its(:value) { should eq '8M' }
+    its(:value.downcase) { should eq '8m' }
   end
 
   # PHP Capabilities
@@ -47,15 +47,15 @@ describe 'PHP config parameters' do
   end
 
   context php_config('expose_php') do
-    its(:value) { should eq 'Off' }
+    its(:value) { should eq '' }
   end
 
   context php_config('enable_dl') do
-    its(:value) { should eq 'Off' }
+    its(:value) { should eq '' }
   end
 
   context php_config('default_charset') do
-    its(:value) { should eq 'utf-8' }
+    its(:value.downcase) { should eq 'utf-8' }
   end
 
   context php_config('default_mimetype') do
@@ -76,21 +76,21 @@ describe 'PHP config parameters' do
 
   # # removed // how to test this?
   # context php_config('magic_quotes_runtime') do
-  #   its(:value) { should eq 'Off'}
+  #   its(:value) { should eq ''}
   # end
 
   # Upload / Open
 
   context php_config('allow_url_fopen') do
-    its(:value) { should eq 'Off' }
+    its(:value) { should eq '' }
   end
 
   context php_config('allow_url_include') do
-    its(:value) { should eq 'Off' }
+    its(:value) { should eq '' }
   end
 
   context php_config('file_uploads') do
-    its(:value) { should eq 'Off' }
+    its(:value) { should eq '' }
   end
 
   # Alternative: restrict upload maximum to prevent
@@ -101,15 +101,15 @@ describe 'PHP config parameters' do
   # Log // Information Disclosure
 
   context php_config('display_errors') do
-    its(:value) { should eq 'Off' }
+    its(:value) { should eq '' }
   end
 
   context php_config('display_startup_errors') do
-    its(:value) { should eq 'Off' }
+    its(:value) { should eq '' }
   end
 
   context php_config('log_errors') do
-    its(:value) { should eq 'On' }
+    its(:value) { should eq '1' }
   end
 
   # Session Handling
@@ -125,7 +125,7 @@ describe 'PHP config parameters' do
   # Mail
 
   context php_config('mail.add_x_header') do
-    its(:value) { should eq 'Off' }
+    its(:value) { should eq '' }
   end
 
 end
