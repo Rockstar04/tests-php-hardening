@@ -46,10 +46,6 @@ describe 'PHP config parameters' do
     its(:value) { should eq '...' }
   end
 
-  context php_config('register_globals') do
-    its(:value) { should eq 'Off' }
-  end
-
   context php_config('expose_php') do
     its(:value) { should eq 'Off' }
   end
@@ -66,8 +62,11 @@ describe 'PHP config parameters' do
     its(:value) { should eq 'text/html' }
   end
 
-  # removed as of PHP5.4, so...
+  # removed as of PHP5.4, so... (Debian 6 and Ubuntu 12.04 are pinned to 5.3)
   # remove these test?
+  context php_config('register_globals') do
+    its(:value) { should eq nil }
+  end
   context php_config('magic_quotes_gpc') do
     its(:value) { should eq nil}
   end
