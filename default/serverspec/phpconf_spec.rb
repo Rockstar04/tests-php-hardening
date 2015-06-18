@@ -31,11 +31,11 @@ describe 'PHP config parameters' do
   end
 
   context php_config('memory_limit') do
-    its(:value.downcase) { should eq '128m' }
+    its(:value.downcase) { should match(%r{128m}i) }
   end
 
   context php_config('post_max_size') do
-    its(:value.downcase) { should eq '8m' }
+    its(:value.downcase) { should match(%r{8m}i) }
   end
 
   # PHP Capabilities
@@ -59,11 +59,11 @@ describe 'PHP config parameters' do
   end
 
   context php_config('default_charset') do
-    its(:value.downcase) { should eq 'utf-8' }
+    its(:value.downcase) { should match(%r{utf-8}i) }
   end
 
   context php_config('default_mimetype') do
-    its(:value) { should eq 'text/html' }
+    its(:value) { should match(%r{text/html}i) }
   end
 
   # removed as of PHP5.4, so... (Debian 6 and Ubuntu 12.04 are pinned to 5.3)
