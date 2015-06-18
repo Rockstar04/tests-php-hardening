@@ -20,9 +20,6 @@ describe 'PHP config parameters' do
 
   context php_config('max_execution_time') do
     its(:value) { should <= 30 }
-  end
-
-  context php_config('max_execution_time') do
     its(:value) { should > 0 }
   end
 
