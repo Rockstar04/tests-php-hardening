@@ -22,6 +22,10 @@ describe 'PHP config parameters' do
     its(:value) { should <= 30 }
   end
 
+  context php_config('max_execution_time') do
+    its(:value) { should > 0 }
+  end
+
   context php_config('max_input_nesting_level') do
     its(:value) { should eq 64 }
   end
@@ -42,9 +46,9 @@ describe 'PHP config parameters' do
   end
 
   # TODO: do we have a recommended minimum-set?
-  context php_config('disable_classes') do
-    its(:value) { should eq '...' }
-  end
+  # context php_config('disable_classes') do
+  #   its(:value) { should eq '...' }
+  # end
 
   context php_config('expose_php') do
     its(:value) { should eq '' }
@@ -68,10 +72,10 @@ describe 'PHP config parameters' do
     its(:value) { should eq nil }
   end
   context php_config('magic_quotes_gpc') do
-    its(:value) { should eq nil}
+    its(:value) { should eq nil }
   end
   context php_config('magic_quotes_sybase') do
-    its(:value) { should eq nil}
+    its(:value) { should eq nil }
   end
 
   # # removed // how to test this?
@@ -113,9 +117,19 @@ describe 'PHP config parameters' do
   end
 
   # Session Handling
-
-  context php_config('session.save_path') do
-    its(:value) { should eq '/var/lib/php' }
+  case os[:family]
+    when 'redhat', 'centos', 'oracle','scientific'
+      context php_config('session.save_path') do
+        its(:value) { should eq '/var/lib/php5' }
+      end
+    when 'debian', 'ubuntu'
+      context php_config('session.save_path') do
+        its(:value) { should eq '/var/lib/php/session' }
+      end
+    else
+      context php_config('session.save_path') do
+        its(:value) { should eq '/var/lib/php' }
+      end
   end
 
   context php_config('session.cookie_httponly') do
