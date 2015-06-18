@@ -10,10 +10,87 @@ describe 'PHP config parameters' do
   #   reason: deprecated
   #   see: http://php.net/manual/de/features.safe-mode.php
 
-  # Base configuration
 
-  context php_config('open_basedir') do
-    its(:value) { should eq '/var/www/:/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/' }
+  # Here are all the common places a php config file can be with system package installations
+  file_locations = ["/etc/php.ini","/etc/php5/apache2/php.ini","/etc/php5/fpm/php.ini","/etc/php5/cli/php.ini"]
+
+  file_locations.each do |file|
+
+    # Base configuration
+    describe file(file) do
+      it { should contain('/var/www/:/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/').after('open_basedir = ') }
+    end
+
+    # PHP Capabilities
+
+    # Ensure unsafe functions are disabled
+    describe file(file) do
+      it { should contain('php_uname').after('disable_functions = ') }
+      it { should contain('getmyuid').after('disable_functions = ') }
+      it { should contain('getmypid').after('disable_functions = ') }
+      it { should contain('passthru').after('disable_functions = ') }
+      it { should contain('leak').after('disable_functions = ') }
+      it { should contain('listen').after('disable_functions = ') }
+      it { should contain('diskfreespace').after('disable_functions = ') }
+      it { should contain('tmpfile').after('disable_functions = ') }
+      it { should contain('link').after('disable_functions = ') }
+      it { should contain('ignore_user_abord').after('disable_functions = ') }
+      it { should contain('shell_exec').after('disable_functions = ') }
+      it { should contain('dl').after('disable_functions = ') }
+      it { should contain('set_time_limit').after('disable_functions = ') }
+      it { should contain('ini_set').after('disable_functions = ') }
+      it { should contain('exec').after('disable_functions = ') }
+      it { should contain('system').after('disable_functions = ') }
+      it { should contain('highlight_file').after('disable_functions = ') }
+      it { should contain('source').after('disable_functions = ') }
+      it { should contain('show_source').after('disable_functions = ') }
+      it { should contain('fpaththru').after('disable_functions = ') }
+      it { should contain('virtual').after('disable_functions = ') }
+      it { should contain('posix_ctermid').after('disable_functions = ') }
+      it { should contain('posix_getcwd').after('disable_functions = ') }
+      it { should contain('posix_getegid').after('disable_functions = ') }
+      it { should contain('posix_geteuid').after('disable_functions = ') }
+      it { should contain('posix_getgid').after('disable_functions = ') }
+      it { should contain('posix_getgrgid').after('disable_functions = ') }
+      it { should contain('posix_getgrnam').after('disable_functions = ') }
+      it { should contain('posix_getgroups').after('disable_functions = ') }
+      it { should contain('posix_getlogin').after('disable_functions = ') }
+      it { should contain('posix_getpgid').after('disable_functions = ') }
+      it { should contain('posix_getpgrp').after('disable_functions = ') }
+      it { should contain('posix_getpid').after('disable_functions = ') }
+      it { should contain('posix').after('disable_functions = ') }
+      it { should contain('_getppid').after('disable_functions = ') }
+      it { should contain('posix_getpwnam').after('disable_functions = ') }
+      it { should contain('posix_getpwuid').after('disable_functions = ') }
+      it { should contain('posix_getrlimit').after('disable_functions = ') }
+      it { should contain('posix_getsid').after('disable_functions = ') }
+      it { should contain('posix_getuid').after('disable_functions = ') }
+      it { should contain('posix_isatty').after('disable_functions = ') }
+      it { should contain('posix_kill').after('disable_functions = ') }
+      it { should contain('posix_mkfifo').after('disable_functions = ') }
+      it { should contain('posix_setegid').after('disable_functions = ') }
+      it { should contain('posix_seteuid').after('disable_functions = ') }
+      it { should contain('posix_setgid').after('disable_functions = ') }
+      it { should contain('posix_setpgid').after('disable_functions = ') }
+      it { should contain('posix_setsid').after('disable_functions = ') }
+      it { should contain('posix_setuid').after('disable_functions = ') }
+      it { should contain('posix_times').after('disable_functions = ') }
+      it { should contain('posix_ttyname').after('disable_functions = ') }
+      it { should contain('posix_uname').after('disable_functions = ') }
+      it { should contain('proc_open').after('disable_functions = ') }
+      it { should contain('proc_close').after('disable_functions = ') }
+      it { should contain('proc_get_status').after('disable_functions = ') }
+      it { should contain('proc_nice').after('disable_functions = ') }
+      it { should contain('proc_terminate').after('disable_functions = ') }
+      it { should contain('phpinfo').after('disable_functions = ') }
+    end
+
+    # Ensure unsafe classes are disabled
+    # TODO: do we have a recommended minimum-set?
+    #describe file(file) do
+    #  it { should contain('php_uname').after('disable_classes = ') }
+    #end
+
   end
 
   # Time / Memory Quota
@@ -35,11 +112,9 @@ describe 'PHP config parameters' do
     its(:value.downcase) { should match(%r{8m}i) }
   end
 
-  # PHP Capabilities
-
   # TODO: do we have a recommended minimum-set?
   context php_config('disable_functions') do
-    its(:value) { should eq 'php_uname, getmyuid, getmypid, passthru, leak, listen, diskfreespace, tmpfile, link, ignore_user_abord, shell_exec, dl, set_time_limit, exec, system, highlight_file, source, show_source, fpaththru, virtual, posix_ctermid, posix_getcwd, posix_getegid, posix_geteuid, posix_getgid, posix_getgrgid, posix_getgrnam, posix_getgroups, posix_getlogin, posix_getpgid, posix_getpgrp, posix_getpid, posix, _getppid, posix_getpwnam, posix_getpwuid, posix_getrlimit, posix_getsid, posix_getuid, posix_isatty, posix_kill, posix_mkfifo, posix_setegid, posix_seteuid, posix_setgid, posix_setpgid, posix_setsid, posix_setuid, posix_times, posix_ttyname, posix_uname, proc_open, proc_close, proc_get_status, proc_nice, proc_terminate, phpinfo' }
+    its(:value) { should eq 'php_uname, getmyuid, getmypid, passthru, leak, listen, diskfreespace, tmpfile, link, ignore_user_abord, shell_exec, dl, set_time_limit, ini_set, exec, system, highlight_file, source, show_source, fpaththru, virtual, posix_ctermid, posix_getcwd, posix_getegid, posix_geteuid, posix_getgid, posix_getgrgid, posix_getgrnam, posix_getgroups, posix_getlogin, posix_getpgid, posix_getpgrp, posix_getpid, posix, _getppid, posix_getpwnam, posix_getpwuid, posix_getrlimit, posix_getsid, posix_getuid, posix_isatty, posix_kill, posix_mkfifo, posix_setegid, posix_seteuid, posix_setgid, posix_setpgid, posix_setsid, posix_setuid, posix_times, posix_ttyname, posix_uname, proc_open, proc_close, proc_get_status, proc_nice, proc_terminate, phpinfo' }
   end
 
   # TODO: do we have a recommended minimum-set?
