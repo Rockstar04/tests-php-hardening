@@ -13,7 +13,7 @@ describe 'PHP config parameters' do
   # Base configuration
 
   context php_config('open_basedir') do
-    its(:value) { should eq '/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/' }
+    its(:value) { should eq '/var/www/:/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/' }
   end
 
   # Time / Memory Quota
@@ -66,13 +66,13 @@ describe 'PHP config parameters' do
   # removed as of PHP5.4, so... (Debian 6 and Ubuntu 12.04 are pinned to 5.3)
   # remove these test?
   context php_config('register_globals') do
-    its(:value) { should eq nil }
+    its(:value) { should eq '' }
   end
   context php_config('magic_quotes_gpc') do
-    its(:value) { should eq nil }
+    its(:value) { should eq '' }
   end
   context php_config('magic_quotes_sybase') do
-    its(:value) { should eq nil }
+    its(:value) { should eq '' }
   end
 
   # # removed // how to test this?
@@ -110,16 +110,16 @@ describe 'PHP config parameters' do
   end
 
   context php_config('log_errors') do
-    its(:value) { should eq '1' }
+    its(:value) { should eq 1 }
   end
 
   # Session Handling
   case os[:family]
-    when 'redhat', 'centos', 'oracle','scientific'
+    when 'debian', 'ubuntu'
       context php_config('session.save_path') do
         its(:value) { should eq '/var/lib/php5' }
       end
-    when 'debian', 'ubuntu'
+    when 'redhat', 'centos', 'oracle','scientific'
       context php_config('session.save_path') do
         its(:value) { should eq '/var/lib/php/session' }
       end
