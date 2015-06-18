@@ -16,6 +16,8 @@ describe 'PHP config parameters' do
 
   file_locations.each do |file|
 
+    next unless File.file?(file)
+
     # Base configuration
     describe file(file) do
       it { should contain('/var/www/:/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/').after('open_basedir = ') }
