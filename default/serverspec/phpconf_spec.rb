@@ -52,11 +52,11 @@ describe 'PHP config parameters' do
   # end
 
   context php_config_file('expose_php') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
 
   context php_config_file('enable_dl') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
 
   context php_config_file('default_charset') do
@@ -70,32 +70,32 @@ describe 'PHP config parameters' do
   # removed as of PHP5.4, so... (Debian 6 and Ubuntu 12.04 are pinned to 5.3)
   # remove these test?
   context php_config_file('register_globals') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
   context php_config_file('magic_quotes_gpc') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
   context php_config_file('magic_quotes_sybase') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
 
   # # removed // how to test this?
   # context php_config_file('magic_quotes_runtime') do
-  #   its(:value) { should eq ''}
+  #   its(:value) { should eq false}
   # end
 
   # Upload / Open
 
   context php_config_file('allow_url_fopen') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
 
   context php_config_file('allow_url_include') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
 
   context php_config_file('file_uploads') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
 
   # Alternative: restrict upload maximum to prevent
@@ -106,15 +106,15 @@ describe 'PHP config parameters' do
   # Log // Information Disclosure
 
   context php_config_file('display_errors') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
 
   context php_config_file('display_startup_errors') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
 
   context php_config_file('log_errors') do
-    its(:value) { should eq 1 }
+    its(:value) { should eq true }
   end
 
   # Session Handling
@@ -134,17 +134,17 @@ describe 'PHP config parameters' do
   end
 
   context php_config_file('session.use_only_cookies') do
-    its(:value) { should eq 1 }
+    its(:value) { should eq true }
   end
 
   context php_config_file('session.cookie_httponly') do
-    its(:value) { should eq 1 }
+    its(:value) { should eq true }
   end
 
   # Mail
 
   context php_config_file('mail.add_x_header') do
-    its(:value) { should eq '' }
+    its(:value) { should eq false }
   end
 
 end
