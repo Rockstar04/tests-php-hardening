@@ -13,16 +13,6 @@ describe 'PHP config parameters' do
   # Here are all the common places a php config file can be with system package installations
   file_locations = ['/etc/php.ini', '/etc/php5/apache2/php.ini', '/etc/php5/fpm/php.ini', '/etc/php5/cli/php.ini']
 
-  file_locations.each do |file|
-
-    # We have to check the execution time in file because its always 0 from the CLI
-    describe file(file) do
-      its(:content) { should contain 'max_execution_time' }
-      contain('rspec').after(/^group :test do/)
-    end
-
-  end
-
   # Base configuration
 
   context php_config_file('open_basedir') do
