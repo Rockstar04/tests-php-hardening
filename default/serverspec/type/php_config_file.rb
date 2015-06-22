@@ -29,7 +29,7 @@ module Serverspec
       end
 
       def value
-        @file = ' -c ' + @file unless @file.is_nil
+        @file = ' -c ' + @file unless @file.nil?
 
         ret = @runner.run_command("php #{@file} -r 'echo get_cfg_var( \"#{@name}\" );'")
         val = ret.stdout
