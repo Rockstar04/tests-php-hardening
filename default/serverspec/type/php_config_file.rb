@@ -38,7 +38,7 @@ module Serverspec
       end
     end
 
-    def php_config_file(name, file)
+    def php_config_file(name, file = nil)
       PhpConfigFile.new(name, file)
     end
   end
