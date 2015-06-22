@@ -62,4 +62,5 @@ else
   set :backend, :exec
 end
 
+require 'to_bool'
 require 'type/php_config_file'

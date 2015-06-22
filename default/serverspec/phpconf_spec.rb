@@ -23,7 +23,8 @@ describe 'PHP config parameters' do
 
   context php_config_file('max_execution_time') do
     its(:value) { should <= 30 }
-    its(:value) { should > 0 }
+    # We will need to grep files to ensure this is not zero (CLI hardcoded to no time limit)
+    # its(:value) { should > 0 }
   end
 
   context php_config_file('max_input_nesting_level') do
