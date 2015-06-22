@@ -15,23 +15,27 @@
 # limitations under the License.
 #
 
-module Serverspec::Type
-  class PhpConfigFile < Base
-    attr_reader :file
+module Serverspec
+  module Type
+    class PhpConfigFile < Base
+      attr_reader :file
 
-    def initialize(name = nil, file = nil)
-      @name   = name
-      @file   = file
-      @runner = Specinfra::Runner
-    end
+      def initialize(name = nil, file = nil)
+        @name   = name
+        @file   = file
+        @runner = Specinfra::Runner
+      end
 
-    def value
-      @file = ' -c ' + @file unless @file.is_nil
+      def value
+        @file = ' -c ' + @file unless @file.is_nil
 
-      ret = @runner.run_command("php #{@file} -r 'echo get_cfg_var( \"#{@name}\" );'")
-      val = ret.stdout
-      val = val.to_i if val.match(/^\d+$/)
-      val
+        ret = @runner.run_command("php #{@file} -r 'echo get_cfg_var( \"#{@name}\" );'")
+        val = ret.stdout
+        val = val.to_i if val.match(/^\d+$/)
+        val
+      end
     end
   end
 end
+
+include Serverspec::Type
