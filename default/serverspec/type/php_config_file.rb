@@ -33,7 +33,8 @@ module Serverspec
 
         ret = @runner.run_command("php #{@file} -r 'echo get_cfg_var( \"#{@name}\" );'")
         val = ret.stdout
-        val = val.to_bool if val.match(/^\d+$/)
+        val = val.to_i if val.match(/^\d+$/)
+        val = val.to_bool if val.match(/^(On|Off|1|0|\s)$/i)
         val
       end
     end
