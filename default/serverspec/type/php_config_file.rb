@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+include Serverspec::Type
+
 module Serverspec
   module Type
     class PhpConfigFile < Base
@@ -35,7 +37,9 @@ module Serverspec
         val
       end
     end
+
+    def php_config_file(name, file)
+      PhpConfigFile.new(name, file)
+    end
   end
 end
-
-include Serverspec::Type

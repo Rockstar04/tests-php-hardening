@@ -21,7 +21,6 @@ if ENV['STANDALONE_SPEC']
   require 'pathname'
   require 'net/ssh'
   require 'highline/import'
-  require 'php_config_file'
 
   set :backend, :ssh
 
@@ -59,7 +58,8 @@ if ENV['STANDALONE_SPEC']
 
 else
   require 'serverspec'
-  require 'php_config_file'
 
   set :backend, :exec
 end
+
+require 'type/php_config_file'
