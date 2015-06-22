@@ -59,6 +59,7 @@ if ENV['STANDALONE_SPEC']
 
 else
   require 'serverspec'
+  require 'php_config_file'
 
   set :backend, :exec
 end
