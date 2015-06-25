@@ -32,10 +32,22 @@ module Serverspec
         @file = ' -c ' + @file unless @file.nil?
 
         ret = @runner.run_command("php #{@file} -r 'echo get_cfg_var( \"#{@name}\" );'")
-        val = ret.stdout
-        val = val.to_i if val.match(/^\d+$/)
-        val = val.to_bool if val.match(/^(On|Off|1|0)$/i)
+        val = standardize(ret.stdout)
         val
+      end
+
+      def standardize(value)
+        return value unless value.is_a? String
+
+        if value.match(/^(On|Off|1|0)$/i)
+          return value.to_bool
+        elsif value.match(/^\d+$/)
+          return value.to_i
+        elsif value == ''
+          return value.to_bool
+        end
+
+        value
       end
     end
 
